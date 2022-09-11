@@ -1,0 +1,13 @@
+[Unit]
+Description=Formatter
+Requires=network.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart={{ formatter_path }}/run.sh
+WorkingDirectory={{ formatter_path }}
+User={{ username }}
+
+[Install]
+WantedBy=multi-user.target

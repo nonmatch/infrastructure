@@ -1,0 +1,52 @@
+- name: Clone backend repo
+  git:
+    repo: "https://github.com/nonmatch/backend.git"
+    dest: "{{ backend_path }}"
+    accept_hostkey: yes
+  tags: update
+
+- name: Install python
+  become: yes
+  apt:
+    pkg:
+      - python3
+      - python3-pip
+      - python3-venv
+      # For psycopg2
+      - python3-psycopg2
+      - libpq-dev
+      # To allow to become_user
+      - acl
+
+- name: Install dependencies
+  pip:
+    virtualenv: "{{ backend_path }}/venv"
+    virtualenv_command: python3 -m venv
+    requirements: "{{ backend_path }}/requirements.txt"
+
+- name: Create .env file
+  template:
+    src: env.j2
+    dest: "{{ backend_path }}/.env"
+    mode: 0644
+
+- name: Add upstream origin to tmc repo
+  shell:
+    cmd: git remote get-url upstream || git remote add upstream https://github.com/zeldaret/tmc.git
+    chdir: "{{ backend_tmc_repo }}"
+
+- name: Create service
+  become: yes
+  template:
+    src: backend.service.j2
+    dest: /lib/systemd/system/backend.service
+    mode: 0644
+  notify:
+    - reload_systemctl
+
+- name: Activate service
+  become: yes
+  service:
+    name: backend.service
+    state: started
+    enabled: yes

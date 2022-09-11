@@ -1,0 +1,6 @@
+- import_tasks: setup_devkitpro.yml
+- import_tasks: setup_python.yml
+- import_tasks: install_dependencies.yml
+- import_tasks: clone_repos.yml
+- import_tasks: build_agbcc.yml
+- import_tasks: build_tools.yml

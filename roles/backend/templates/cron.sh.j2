@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=/opt/devkitpro/devkitARM
+cd {{ backend_path }}
+./venv/bin/flask cron
+./venv/bin/flask decomp-me

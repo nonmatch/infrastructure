@@ -1,0 +1,33 @@
+- name: Clone formatter repo
+  git:
+    repo: "https://github.com/nonmatch/formatter.git"
+    dest: "{{ formatter_path }}"
+    accept_hostkey: yes
+
+- name: Install dependencies
+  pip:
+    virtualenv: "{{ formatter_path }}/venv"
+    virtualenv_command: python3 -m venv
+    requirements: "{{ formatter_path }}/requirements.txt"
+
+- name: Create .env file
+  template:
+    src: env.j2
+    dest: "{{ formatter_path }}/.env"
+    mode: 0644
+
+- name: Create service
+  become: yes
+  template:
+    src: formatter.service.j2
+    dest: /lib/systemd/system/formatter.service
+    mode: 0644
+  notify:
+    - reload_systemctl
+
+- name: Activate service
+  become: yes
+  service:
+    name: formatter.service
+    state: started
+    enabled: yes

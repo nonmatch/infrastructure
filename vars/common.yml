@@ -1,0 +1,21 @@
+ansible_port: "{{ ssh_port | default('22') }}"
+
+backend_server: backend.uk.to
+backend_use_ssl: yes
+formatter_server: formatter.uk.to
+formatter_use_ssl: yes
+cexplore_server: nonmatch.uk.to
+cexplore_use_ssl: yes
+
+# Database
+db_name: nonmatch
+db_user: octorock
+
+# Backend
+cexplore_host: https://nonmatch.us.to
+pycat_url: "{{ cexplore_host }}/api/compiler/cat/compile"
+cexplore_url: "{{ cexplore_host }}/api/compiler/agbcc/compile"
+proxy_cat_url: "{{ cexplore_host }}/api/compiler/cat/compile"
+proxy_compile_url: "{{ cexplore_host }}/api/compiler/agbcc/compile"
+proxy_formatter_url: https://formatter.us.to/format
+proxy_new_format: true

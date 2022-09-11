@@ -1,0 +1,5 @@
+- name: Install java
+  become: yes
+  apt:
+    pkg:
+      default-jdk

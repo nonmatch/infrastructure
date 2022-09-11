@@ -1,0 +1,5 @@
+- name: Upgrade database
+  shell: "{{ backend_path }}/venv/bin/flask db upgrade"
+  args:
+    chdir: "{{ backend_path }}"
+  tags: update

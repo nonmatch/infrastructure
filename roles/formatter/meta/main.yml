@@ -1,0 +1,7 @@
+dependencies:
+  - role: nginx_site
+    site_name: formatter
+    server_name: "{{ formatter_server }}"
+    proxy_pass: http://localhost:10245
+  - role: tmc_repo
+    repo_path: "{{ formatter_tmc_repo }}"

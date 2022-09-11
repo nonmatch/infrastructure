@@ -1,0 +1,26 @@
+server {
+	root /var/www/html;
+	server_name formatter.us.to;
+	location = / {
+		index index.html;
+	}
+
+	location / {
+			proxy_pass http://localhost:10245;
+	}
+    listen 80;
+}
+
+
+server {
+	server_name nonmatch.us.to;
+	location = / {
+		return 404;
+	}
+	location / {
+		proxy_pass http://localhost:10240;
+	}
+
+    listen 80;
+
+}

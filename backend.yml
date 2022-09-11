@@ -1,0 +1,8 @@
+- hosts: backend
+  remote_user: "{{ username }}"
+  vars_files:
+    - vars/common.yml
+    - vars/secrets.yml
+  roles:
+    - firewall
+    - backend

@@ -1,0 +1,10 @@
+- name: Build agbpycc
+  shell: make install
+  args:
+    chdir: "{{ agbpycc_path }}"
+
+- name: Install dependencies
+  pip:
+    virtualenv: "{{ agbpycc_path }}/venv"
+    virtualenv_command: python3 -m venv
+    requirements: "{{ agbpycc_path }}/requirements.txt"

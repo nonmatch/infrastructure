@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+mkdir -p backups
+FILE=backups/db-$(date +%Y-%m-%d-%H-%M).sql
+pg_dump -U {{ db_user }} {{ db_name }} > $FILE
+cat $FILE | curl --request POST --data-binary @- {{ db_backup_url }}

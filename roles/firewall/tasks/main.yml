@@ -1,0 +1,21 @@
+- name: Install ufw
+  become: yes
+  apt:
+    name: ufw
+
+- name: Open ports
+  become: yes
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items:
+  - "{{ ssh_port }}"
+  - "80"
+  - "443"
+
+- name: Deny everything and enable UFW
+  become: yes
+  community.general.ufw:
+    state: enabled
+    policy: deny

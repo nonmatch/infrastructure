@@ -1,0 +1,8 @@
+- name: Install source
+  become: yes
+  shell: curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+
+- name: Install nodejs
+  become: yes
+  apt:
+    name: nodejs

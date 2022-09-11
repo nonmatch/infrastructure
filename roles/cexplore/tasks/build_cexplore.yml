@@ -1,0 +1,55 @@
+- name: Create local folder
+  file:
+    path: "{{ cexplore_path }}/local"
+    state: directory
+    mode: 0755
+
+- name: Copy files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - src: Makefile
+      dest: "{{ cexplore_path }}"
+      mode: "0644"
+    - src: main.sh
+      dest: "{{ agbpycc_path }}"
+      mode: "0755"
+
+- name: Configure cexplore
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ cexplore_path }}/local/{{ item.dest }}"
+  loop:
+    - src: assembly.j2
+      dest: assembly.local.properties
+    - src: c.j2
+      dest: c.local.properties
+
+- name: Remove eslint
+  lineinfile:
+    path: "{{ cexplore_path }}/compiler-explorer/package.json"
+    state: absent
+    search_string: "eslint"
+
+- name: Build cexplore
+  shell: make build_local
+  args:
+    chdir: "{{ cexplore_path }}"
+
+- name: Create service
+  become: yes
+  template:
+    src: cexplore.service.j2
+    dest: /lib/systemd/system/cexplore.service
+    mode: 0644
+  notify:
+    - reload_systemctl
+
+- name: Activate service
+  become: yes
+  service:
+    name: cexplore.service
+    state: started
+    enabled: yes

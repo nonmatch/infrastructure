@@ -1,0 +1,22 @@
+- hosts: backend
+  gather_facts: false
+  remote_user: "{{ username }}"
+  vars_files:
+    - vars/common.yml
+    - vars/secrets.yml
+  vars_prompt:
+    - name: sql_path
+      prompt: Path to .sql file
+      private: no
+  tasks:
+    - name: Create backup
+      shell: "pg_dump -U {{ db_user }} {{ db_name }} > /tmp/db.sql"
+    - name: Download .sql file
+      fetch:
+        src: /tmp/db.sql
+        dest: "{{ sql_path }}"
+        flat: yes
+    - name: Remove .sql file
+      file:
+        path: /tmp/db.sql
+        state: absent

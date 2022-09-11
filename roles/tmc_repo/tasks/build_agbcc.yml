@@ -1,0 +1,18 @@
+- name: agbcc exists?
+  stat:
+    path: "{{ repo_path }}/tools/agbcc/bin/agbcc"
+  register: agbcc_exists
+
+- name: Build agbcc
+  when: not agbcc_exists.stat.exists
+  block:
+    - name: Build agbcc
+      shell: source /etc/profile.d/devkit-env.sh && sh build.sh
+      args:
+        chdir: "{{ agbcc_path }}"
+        executable: /bin/bash
+
+    - name: Install agbcc
+      shell: "sh install.sh {{ repo_path }}"
+      args:
+        chdir: "{{ agbcc_path }}"

@@ -1,0 +1,8 @@
+backend_path: "/home/{{ username }}/backend"
+db_url: localhost
+repo_user: 1
+admin_user: 2
+pr_url: /repos/zeldaret/tmc/pulls
+backend_tmc_repo: "/home/{{ username }}/tmc-backend"
+frontend_url: https://nonmatch.netlify.app
+backend_use_ssl: no

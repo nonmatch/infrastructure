@@ -1,0 +1,51 @@
+- name: Check if server config exists
+  stat:
+    path: "/etc/nginx/sites-available/{{ site_name }}.conf"
+  register: check_file
+
+- name: Check if server_name already exists
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ site_name }}.conf
+    regexp: "server_name {{ server_name }};"
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: check_server_name
+
+- name: Check if proxy_pass already exists
+  lineinfile:
+    path: /etc/nginx/sites-available/{{ site_name }}.conf
+    regexp: 'proxy_pass {{ proxy_pass }}'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: check_proxy_pass
+
+- name: Change site
+  when: not check_file.stat.exists or not check_server_name.found or not check_proxy_pass.found
+  block:
+    - name: Install nginx site
+      become: yes
+      template:
+        src: templates/site.conf.j2
+        dest: /etc/nginx/sites-available/{{ site_name }}.conf
+
+    - name: Activate site
+      become: yes
+      file:
+        src: /etc/nginx/sites-available/{{ site_name }}.conf
+        dest: /etc/nginx/sites-enabled/{{ site_name }}.conf
+        state: link
+      notify: restart_nginx
+
+    # https://github.com/coopdevs/certbot_nginx/blob/master/tasks/certificate.yml
+    - name: Create certificate
+      become: yes
+      shell: >
+        certbot --noninteractive --nginx --email '{{ letsencrypt_email }}'
+        --agree-tos -d '{{ server_name }}'
+        {% if certbot_nginx_cert_name is defined %}
+        --cert-name '{{ certbot_nginx_cert_name }}'
+        {% endif %}
+        {% if letsencrypt_staging %} --staging {% endif %}
+      notify: restart_nginx

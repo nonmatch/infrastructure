@@ -1,0 +1,8 @@
+dependencies:
+  - role: nginx_site
+    site_name: cexplore
+    server_name: "{{ cexplore_server }}"
+    proxy_pass: http://localhost:10240
+    use_ssl: "{{ cexplore_use_ssl }}"
+  - role: tmc_repo
+    repo_path: "{{ cexplore_tmc_repo }}"

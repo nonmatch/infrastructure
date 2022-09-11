@@ -1,0 +1,6 @@
+repo_path: "/home/{{ username }}/tmc"
+repo_remote: "https://github.com/zeldaret/tmc.git"
+repo_branch: "master"
+agbcc_path: "/home/{{ username }}/agbcc"
+agbcc_remote: "https://github.com/octorock/agbcc.git"
+agbcc_branch: "dwarf-bugfix"

@@ -1,0 +1,9 @@
+- name: Install dependencies
+  become: yes
+  apt:
+    pkg:
+      - build-essential
+      - git
+      - libpng-dev
+      - cmake
+      - clang-format

@@ -1,0 +1,21 @@
+- name: devkitPro exists?
+  stat:
+    path: /opt/devkitpro
+  register: devkitpro_exists
+
+- name: Install devkitPro
+  when: not devkitpro_exists.stat.exists
+  become: yes
+  block:
+    - name: Download install script
+      get_url:
+        url: https://apt.devkitpro.org/install-devkitpro-pacman
+        dest: /tmp
+    - name: Run install script
+      shell: echo "Y" | bash /tmp/install-devkitpro-pacman
+    - name: Install gba-dev packages
+      shell: dkp-pacman -S gba-dev --noconfirm
+
+# Doesn't work. Instead specify bash as executable when needed so it will read the pofiles?
+# - name: Activate devkitPro
+#   shell: . /etc/profile.d/devkit-env.sh

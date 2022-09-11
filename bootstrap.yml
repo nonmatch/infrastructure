@@ -1,0 +1,8 @@
+- name: Bootstrap server
+  hosts: all
+  user: root
+  roles:
+    - apt_upgrade
+    - create_user
+    - ssh
+    - tools

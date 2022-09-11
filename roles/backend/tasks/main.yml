@@ -1,0 +1,4 @@
+- import_tasks: setup.yml
+- import_tasks: database.yml
+- import_tasks: upgrade.yml
+- import_tasks: cron.yml

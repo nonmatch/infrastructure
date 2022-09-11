@@ -1,0 +1,15 @@
+- name: reload_systemctl
+  become: yes
+  command: systemctl daemon-reload
+
+- name: restart_backend
+  become: yes
+  service:
+    name: backend.service
+    state: restarted
+
+- name: stop_backend
+  become: yes
+  service:
+    name: backend.service
+    state: stopped

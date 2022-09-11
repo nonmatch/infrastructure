@@ -1,0 +1,15 @@
+- name: Create users .ssh directory
+  file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: users
+    mode: 0700
+
+- name: Copy users authorized_keys
+  copy:
+    content: "{{ authorized_keys }}"
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    owner: "{{ username }}"
+    group: users
+    mode: 0600

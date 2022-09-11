@@ -1,0 +1,13 @@
+- name: Clone tmc repo
+  git:
+    repo: "{{ repo_remote }}"
+    version: "{{ repo_branch }}"
+    dest: "{{ repo_path }}"
+    accept_hostkey: yes
+
+- name: Clone agbcc repo
+  git:
+    repo: "{{ agbcc_remote }}"
+    version: "{{ agbcc_branch }}"
+    dest: "{{ agbcc_path }}"
+    accept_hostkey: yes

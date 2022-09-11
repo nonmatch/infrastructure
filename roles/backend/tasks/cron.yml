@@ -1,0 +1,27 @@
+- name: Download runitor
+  get_url:
+    url: https://github.com/bdd/runitor/releases/download/v0.10.1/runitor-v0.10.1-linux-amd64
+    dest: "/home/{{ username }}/runitor"
+    mode: 0700
+- name: Create cron.sh
+  template:
+    src: cron.sh.j2
+    dest: "/home/{{ username }}/cron.sh"
+    mode: 0700
+- name: Create db-backup.sh
+  template:
+    src: db-backup.sh.j2
+    dest: "/home/{{ username }}/db-backup.sh"
+    mode: 0700
+- name: Add update cron
+  cron:
+    name: Update Nonmatch
+    hour: 6
+    minute: 0
+    job: "/home/{{ username }}/runitor -uuid {{ healthchecks_update }} -- /home/{{ username }}/cron.sh"
+- name: Add backup cron
+  cron:
+    name: Backup DB
+    hour: 5
+    minute: 0
+    job: "/home/{{ username }}/runitor -uuid {{ healthchecks_backup }} -- /home/{{ username }}/db-backup.sh"

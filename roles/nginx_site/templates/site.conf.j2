@@ -1,0 +1,9 @@
+server {
+	server_name {{ server_name }};
+
+	location / {
+		proxy_pass {{ proxy_pass }};
+	}
+
+    listen 80;
+}

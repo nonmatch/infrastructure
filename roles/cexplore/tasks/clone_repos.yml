@@ -1,0 +1,14 @@
+- name: Clone cexplore repo
+  git:
+    repo: "https://github.com/octorock/cexplore.git"
+    dest: "{{ cexplore_path }}"
+    recursive: true
+    force: true
+    accept_hostkey: yes
+
+- name: Clone agbpycc repo
+  git:
+    repo: "https://gitlab.com/henny022/agbpycc.git"
+    dest: "{{ agbpycc_path }}"
+    version: "2139ae3fa637ad7d3415926bc84c5fa52192df47"
+    accept_hostkey: yes

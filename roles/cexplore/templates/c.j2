@@ -1,0 +1,22 @@
+# Default settings for C
+compilers=&agbcc
+
+group.agbcc.compilers=agbcc
+group.agbcc.groupName=AGBCC
+group.agbcc.isSemVer=true
+group.agbcc.compilerType=gcc
+group.agbcc.exe={{ agbpycc_path }}/main.sh
+
+compiler.agbcc.name=agbcc
+compiler.agbcc.options=--cc1 {{ cexplore_tmc_repo }}/tools/agbcc/bin/agbcc -I {{ cexplore_tmc_repo }}/tools/agbcc/include -iquote {{ cexplore_tmc_repo }}/include --preproc {{ cexplore_tmc_repo }}/tools/preproc/preproc -Wimplicit -Wparentheses -Wno-multichar
+
+
+compiler.agbcc.versionFlag=--version={{ cexplore_tmc_repo }}
+
+defaultCompiler=agbcc
+
+postProcess=
+supportsBinary=false
+binaryHideFuncRe=^(__.*|_(init|start|fini)|(de)?register_tm_clones|call_gmon_start|frame_dummy|\.plt.*)$
+stubRe=\bmain\b
+stubText=int main(void){return 0;/*stub provided by Compiler Explorer*/}

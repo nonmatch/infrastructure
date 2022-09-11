@@ -1,0 +1,14 @@
+- name: Create user
+  user:
+    name: "{{ username }}"
+    shell: /bin/bash
+    uid: 1000
+    group: users
+    groups: sudo
+    append: true
+
+- name: Add user to group
+  user:
+    name: "{{ username }}"
+    groups: sudo-nopasswd
+    append: true

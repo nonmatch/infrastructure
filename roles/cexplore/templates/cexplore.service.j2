@@ -1,0 +1,12 @@
+[Unit]
+Description=CExplore
+Requires=network.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/make run_local
+WorkingDirectory={{ cexplore_path }}
+
+[Install]
+WantedBy=multi-user.target

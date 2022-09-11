@@ -1,0 +1,13 @@
+[Unit]
+Description=Nonmatch Backend
+Requires=network.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart={{ backend_path }}/run.sh
+WorkingDirectory={{ backend_path }}
+User={{ username }}
+
+[Install]
+WantedBy=multi-user.target

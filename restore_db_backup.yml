@@ -1,0 +1,40 @@
+- hosts: backend
+  gather_facts: false
+  remote_user: "{{ username }}"
+  vars_files:
+    - vars/common.yml
+    - vars/secrets.yml
+  vars_prompt:
+    - name: sql_path
+      prompt: Path to .sql file
+      private: no
+  tasks:
+    - name: Copy .sql file
+      copy:
+        src: "{{ sql_path }}"
+        dest: /tmp/db.sql
+    # TODO create a backup
+    - name: Stop backend
+      become: yes
+      service:
+        name: backend.service
+        state: stopped
+    - name: Drop old database
+      shell: "dropdb {{ db_name }}"
+      become: yes
+      become_user: postgres
+    - name: Recreate database
+      shell: "createdb {{ db_name }}"
+      become: yes
+      become_user: postgres
+    - name: Restore backup
+      shell: "psql -U {{ db_user }} {{ db_name }} < /tmp/db.sql"
+    - name: Remove .sql file
+      file:
+        path: /tmp/db.sql
+        state: absent
+    - name: Restart backend
+      become: yes
+      service:
+        name: backend.service
+        state: restarted

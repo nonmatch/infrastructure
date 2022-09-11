@@ -1,0 +1,5 @@
+- name: Build tmc tools
+  shell: source /etc/profile.d/devkit-env.sh && make -j setup
+  args:
+    chdir: "{{ repo_path }}"
+    executable: /bin/bash
