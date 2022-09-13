@@ -1,3 +1,5 @@
 cexplore_path: "/home/{{ username }}/cexplore"
 agbpycc_path: "/home/{{ username }}/agbpycc"
 cexplore_tmc_repo: "/home/{{ username }}/tmc-cexplore"
+cexplore_server: cexplore
+cexplore_use_ssl: no

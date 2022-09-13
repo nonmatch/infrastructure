@@ -1,4 +1,5 @@
 dependencies:
+  - role: python
   - role: postgresql
   - role: nginx_site
     site_name: backend

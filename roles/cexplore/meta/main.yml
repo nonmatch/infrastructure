@@ -1,4 +1,5 @@
 dependencies:
+  - role: python
   - role: nginx_site
     site_name: cexplore
     server_name: "{{ cexplore_server }}"

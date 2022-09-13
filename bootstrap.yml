@@ -1,6 +1,9 @@
 - name: Bootstrap server
   hosts: all
   user: root
+  become: yes
+  vars_files:
+    - vars/secrets.yml
   roles:
     - apt_upgrade
     - create_user

@@ -2,7 +2,6 @@
   user:
     name: "{{ username }}"
     shell: /bin/bash
-    uid: 1000
     group: users
     groups: sudo
     append: true

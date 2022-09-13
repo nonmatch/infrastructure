@@ -1,11 +1,6 @@
 ansible_port: "{{ ssh_port | default('22') }}"
 
-backend_server: backend.uk.to
-backend_use_ssl: yes
-formatter_server: formatter.uk.to
-formatter_use_ssl: yes
-cexplore_server: nonmatch.uk.to
-cexplore_use_ssl: yes
+
 
 # Database
 db_name: nonmatch

@@ -1,2 +1,4 @@
 formatter_path: "/home/{{ username }}/formatter"
 formatter_tmc_repo: "/home/{{ username }}/tmc-cexplore"
+formatter_server: formatter
+formatter_use_ssl: no

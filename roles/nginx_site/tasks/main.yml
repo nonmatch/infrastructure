@@ -29,6 +29,7 @@
       template:
         src: templates/site.conf.j2
         dest: /etc/nginx/sites-available/{{ site_name }}.conf
+      notify: restart_nginx
 
     - name: Activate site
       become: yes
@@ -36,11 +37,11 @@
         src: /etc/nginx/sites-available/{{ site_name }}.conf
         dest: /etc/nginx/sites-enabled/{{ site_name }}.conf
         state: link
-      notify: restart_nginx
 
     # https://github.com/coopdevs/certbot_nginx/blob/master/tasks/certificate.yml
     - name: Create certificate
       become: yes
+      when: use_ssl
       shell: >
         certbot --noninteractive --nginx --email '{{ letsencrypt_email }}'
         --agree-tos -d '{{ server_name }}'

@@ -5,4 +5,5 @@ admin_user: 2
 pr_url: /repos/zeldaret/tmc/pulls
 backend_tmc_repo: "/home/{{ username }}/tmc-backend"
 frontend_url: https://nonmatch.netlify.app
+backend_server: backend
 backend_use_ssl: no
