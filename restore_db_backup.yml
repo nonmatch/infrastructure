@@ -19,6 +19,11 @@
       service:
         name: backend.service
         state: stopped
+    - name: Stop worker
+      become: yes
+      service:
+        name: worker.service
+        state: stopped
     - name: Drop old database
       shell: "dropdb {{ db_name }}"
       become: yes
@@ -37,4 +42,9 @@
       become: yes
       service:
         name: backend.service
+        state: restarted
+    - name: Restart worker
+      become: yes
+      service:
+        name: worker.service
         state: restarted

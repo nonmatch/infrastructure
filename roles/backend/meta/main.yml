@@ -6,7 +6,9 @@ dependencies:
     server_name: "{{ backend_server }}"
     proxy_pass: http://localhost:5000
     use_ssl: "{{ backend_use_ssl }}"
+    pass_socket_io: yes
+  - role: create_ssh_keys
   - role: tmc_repo
     repo_path: "{{ backend_tmc_repo }}"
-    repo_remote: https://github.com/nonmatch/tmc.git
+    repo_remote: git@github.com:nonmatch/tmc.git
     repo_branch: nonmatch

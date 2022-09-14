@@ -4,3 +4,5 @@
       - htop
       - vim
       - git
+      # To allow to become_user
+      - acl

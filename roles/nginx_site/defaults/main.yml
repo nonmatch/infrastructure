@@ -1,2 +1,3 @@
 use_ssl: no
 letsencrypt_staging: no
+pass_socket_io: no

@@ -4,35 +4,49 @@
     dest: "{{ backend_path }}"
     accept_hostkey: yes
   tags: update
+  notify:
+    - restart_backend
+    - restart_worker
 
-- name: Install psycopg
+- name: Install psycopg and redis
   become: yes
   apt:
     pkg:
       # For psycopg2
       - python3-psycopg2
       - libpq-dev
-      # To allow to become_user
-      - acl
+      # Redis server
+      - redis
 
 - name: Install dependencies
   pip:
     virtualenv: "{{ backend_path }}/venv"
     virtualenv_command: python3 -m venv
     requirements: "{{ backend_path }}/requirements.txt"
+  tags: update
 
 - name: Create .env file
   template:
     src: env.j2
     dest: "{{ backend_path }}/.env"
     mode: 0644
+  tags: update
+  notify:
+    - restart_backend
+    - restart_worker
+
+- name: Copy format.sh
+  copy:
+    src: format.sh
+    dest: "{{ backend_tmc_repo }}/../format.sh"
+    mode: 0700
 
 - name: Add upstream origin to tmc repo
   shell:
     cmd: git remote get-url upstream || git remote add upstream https://github.com/zeldaret/tmc.git
     chdir: "{{ backend_tmc_repo }}"
 
-- name: Create service
+- name: Create backend service
   become: yes
   template:
     src: backend.service.j2
@@ -40,10 +54,28 @@
     mode: 0644
   notify:
     - reload_systemctl
+    - restart_backend
+
+- name: Activate backend service
+  become: yes
+  service:
+    name: backend.service
+    state: started
+    enabled: yes
+
+- name: Create worker service
+  become: yes
+  template:
+    src: worker.service.j2
+    dest: /lib/systemd/system/worker.service
+    mode: 0644
+  notify:
+    - reload_systemctl
+    - restart_worker
 
 - name: Activate service
   become: yes
   service:
-    name: backend.service
+    name: worker.service
     state: started
     enabled: yes

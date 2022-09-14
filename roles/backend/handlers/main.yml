@@ -8,8 +8,8 @@
     name: backend.service
     state: restarted
 
-- name: stop_backend
+- name: restart_worker
   become: yes
   service:
-    name: backend.service
-    state: stopped
+    name: worker.service
+    state: restarted
