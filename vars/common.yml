@@ -7,10 +7,10 @@ db_name: nonmatch
 db_user: octorock
 
 # Backend
-cexplore_host: https://nonmatch.us.to
+cexplore_host: https://nonmatch.uk.to
 pycat_url: "{{ cexplore_host }}/api/compiler/cat/compile"
 cexplore_url: "{{ cexplore_host }}/api/compiler/agbcc/compile"
 proxy_cat_url: "{{ cexplore_host }}/api/compiler/cat/compile"
 proxy_compile_url: "{{ cexplore_host }}/api/compiler/agbcc/compile"
-proxy_formatter_url: https://formatter.us.to/format
+proxy_formatter_url: https://formatter.uk.to/format
 proxy_new_format: true

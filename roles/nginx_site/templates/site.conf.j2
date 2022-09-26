@@ -4,6 +4,7 @@ server {
 
 	location / {
 		proxy_pass {{ proxy_pass }};
+        include proxy_params;
 	}
 
 	{% if pass_socket_io %}
